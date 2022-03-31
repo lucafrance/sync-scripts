@@ -60,4 +60,11 @@ def sync_all():
         sync_file(os.path.dirname(path), SYNC_FILES_DIR, filename)
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.StreamHandler()
+        ]
+    )
     sync_all()
