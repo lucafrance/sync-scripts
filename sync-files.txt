@@ -1,6 +1,0 @@
-~/.atom/config.cson
-~/.jovian/credentials.json
-~/.kaggle/kaggle.json
-~/.gitconfig
-~/youtube-dl.conf
-~/yt-dlp.conf

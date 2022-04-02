@@ -1,0 +1,6 @@
+~/.gitconfig,home
+~/youtube-dl.conf,home
+~/yt-dlp.conf,home
+~/.atom/config.cson,home/.atom
+~/.jovian/credentials.json,home/.jovian
+~/.kaggle/kaggle.json,home/.kaggle

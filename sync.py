@@ -1,3 +1,4 @@
+import csv
 import filecmp
 import logging
 import os
@@ -7,8 +8,15 @@ import shutil
 SYNC_FILES_DIR = "../sync-files"
 
 def sync_list():
-    with open("sync-files.txt",  "rt") as f:
-        return f.read().splitlines()
+    with open("sync-files.csv",  "rt") as f:
+        for row in csv.reader(f):
+            filename = os.path.basename(row[0])
+            dir1 = os.path.dirname(row[0])
+            dir1 = os.path.expanduser(dir1)
+            dir1 = os.path.abspath(dir1)
+            dir2 = os.path.join(SYNC_FILES_DIR, row[1])
+            dir2 = os.path.abspath(dir2)
+            yield dir1, dir2, filename
 
 def sync_file(dir1, dir2, filename):
     """Sync file in dir1 and dir2 by keeping the most recent one"""
@@ -59,11 +67,8 @@ def sync_file(dir1, dir2, filename):
         logging.info("Replaced \"{}\" with more recent \"{}\".".format(path1, path2))
 
 def sync_all():
-    for path in sync_list():
-        if path.startswith("#"):
-            continue
-        filename = os.path.basename(path)
-        sync_file(os.path.dirname(path), SYNC_FILES_DIR, filename)
+    for dir1, dir2, filename in sync_list():
+        sync_file(dir1, dir2, filename)
 
 if __name__ == "__main__":
     logging.basicConfig(
