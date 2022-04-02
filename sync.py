@@ -68,7 +68,11 @@ def sync_file(dir1, dir2, filename):
 
 def sync_all():
     for dir1, dir2, filename in sync_list():
-        sync_file(dir1, dir2, filename)
+        try:
+            sync_file(dir1, dir2, filename)
+        except Exception as e:
+            logging.error(e)
+            logging.error("Unexpected error shen syncing \"{}\", \"{}\", \"{}\"".format(dir1, dir2, filename))
 
 if __name__ == "__main__":
     logging.basicConfig(
