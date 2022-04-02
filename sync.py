@@ -49,7 +49,7 @@ def sync_file(dir1, dir2, filename):
     # End of handling invalid cases
     # -------------------------------------------------------------
     
-    # If the second file does not (yet) exists, just copy the first one over 
+    # If the second file does not (yet) exist, just copy the first one over 
     if not os.path.exists(path2):
         shutil.copy2(path1, dir2)
         logging.info("Copied \"{}\" to \"{}\".".format(path1, dir2))
