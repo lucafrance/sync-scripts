@@ -19,7 +19,12 @@ def sync_list():
             yield dir1, dir2, filename
 
 def sync_file(dir1, dir2, filename):
-    """Sync file in dir1 and dir2 by keeping the most recent one"""
+    """Sync file in dir1 and dir2 by keeping the most recent one
+    
+    If dir1/filename does not exists, nothing happens.  
+    If dir1/filename exists and dir2/filename does not, dir1/filename is copied to dir2.
+    If both dir1/filename and  dir2/filename, the least recent file is replaced by the most recent one.
+    """
     
     dir1 = os.path.expanduser(dir1)
     dir2 = os.path.expanduser(dir2)
@@ -35,11 +40,8 @@ def sync_file(dir1, dir2, filename):
             return
                 
     if not os.path.exists(path1):
-        if not os.path.exists(path2):
-            logging.warning("Files \"{}\" and \"{}\" do not exist, nothing to sync.".format(path1, path2))
-            return
-        else:
-            sync_file(path2, path1)
+        logging.info("\"{}\" does not exist, not synced with \"{}\"".format(path1, path2))
+        return
     
     if not os.path.isfile(path1):
         logging.warning("\"{}\" is not a file, cannot sync.")
