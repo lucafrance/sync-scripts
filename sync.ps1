@@ -1,4 +1,4 @@
-Start-Transcript -Path "sync.log" -Append -UseMinimalHeader
+Start-Transcript -Path "sync.log" -Append
 Set-Location -Path $PSScriptRoot
 python sync.py
 git -C ../sync-files add *
