@@ -8,7 +8,7 @@ import shutil
 SYNC_FILES_DIR = "../sync-files"
 
 def sync_list():
-    with open("sync-files.csv",  "rt") as f:
+    with open("sync.csv",  "rt") as f:
         for row in csv.reader(f):
             filename = os.path.basename(row[0])
             dir1 = os.path.dirname(row[0])
