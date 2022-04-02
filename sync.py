@@ -1,3 +1,4 @@
+import filecmp
 import logging
 import os
 import shutil
@@ -43,8 +44,13 @@ def sync_file(dir1, dir2, filename):
         shutil.copy2(path1, dir2)
         logging.info("Copied \"{}\" to \"{}\".".format(path1, dir2))
         return
-        
-    # If both files exist, keep the most recent one
+    
+    # If both files exist and are the same, do nothing
+    if filecmp.cmp(path1, path2):
+        logging.debug("\"{}\" appears to be the same as \"{}\", ignored.".format(path1, path2))
+        return
+    
+    # If both files exist and are different, keep the most recent one
     if os.path.getmtime(path1) > os.path.getmtime(path2):
         shutil.copy2(path1, path2)
         logging.info("Replaced \"{}\" with more recent \"{}\".".format(path2, path1))
