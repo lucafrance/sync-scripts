@@ -21,9 +21,10 @@ def sync_list():
 def sync_file(dir1, dir2, filename):
     """Sync file in dir1 and dir2 by keeping the most recent one
     
-    If dir1/filename does not exists, nothing happens.  
-    If dir1/filename exists and dir2/filename does not, dir1/filename is copied to dir2.
-    If both dir1/filename and  dir2/filename, the least recent file is replaced by the most recent one.
+    If dir1 or dir2 do not exist, nothing happens.
+    If dir1/filename and dir2/filename do not exist, nothing happens 
+    If just one of dir1/filename or dir2/filename exists, the existing file is copied over.
+    If both dir1/filename and dir2/filename exist, the least recent file is replaced by the most recent one.
     """
     
     dir1 = os.path.expanduser(dir1)
@@ -31,25 +32,22 @@ def sync_file(dir1, dir2, filename):
     path1 = os.path.join(dir1, filename)
     path2 = os.path.join(dir2, filename)
     
-    # -------------------------------------------------------------
-    # Begin handling invalid cases
-    # -------------------------------------------------------------
+    # If a directory on each side does not exist, do nothing
     for dir in (dir1, dir2):
         if not os.path.isdir(dir):
             logging.info("Path \"{}\" is not a directory, \"{}\" not synced.".format(dir, filename))
             return
-                
-    if not os.path.exists(path1):
-        logging.info("\"{}\" does not exist, not synced with \"{}\"".format(path1, path2))
+    
+    # If both files do not exist, do nothing            
+    if not (os.path.exists(path1) or os.path.exists(path2)) :
+        logging.warning("Both \"{}\" and \"{}\" do not exist, not synched.".format(path1, path2))
         return
     
-    if not os.path.isfile(path1):
-        logging.warning("\"{}\" is not a file, cannot sync.")
-    # -------------------------------------------------------------
-    # End of handling invalid cases
-    # -------------------------------------------------------------
-    
-    # If the second file does not (yet) exist, just copy the first one over 
+    # If one file does not exist, copy over the existing one 
+    if not os.path.exists(path1):
+        shutil.copy2(path2, dir1)
+        logging.info("Copied \"{}\" to \"{}\".".format(path2, dir1))
+        return
     if not os.path.exists(path2):
         shutil.copy2(path1, dir2)
         logging.info("Copied \"{}\" to \"{}\".".format(path1, dir2))
