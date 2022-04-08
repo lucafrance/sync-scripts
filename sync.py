@@ -36,7 +36,7 @@ def sync_file(dir1, dir2, filename):
     # -------------------------------------------------------------
     for dir in (dir1, dir2):
         if not os.path.isdir(dir):
-            logging.warning("Path \"{}\" is not a directory, \"{}\" not synced.".format(dir, filename))
+            logging.info("Path \"{}\" is not a directory, \"{}\" not synced.".format(dir, filename))
             return
                 
     if not os.path.exists(path1):
