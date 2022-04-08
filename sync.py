@@ -35,7 +35,7 @@ def sync_file(dir1, dir2, filename):
     # If a directory on each side does not exist, do nothing
     for dir in (dir1, dir2):
         if not os.path.isdir(dir):
-            logging.info("Path \"{}\" is not a directory, \"{}\" not synced.".format(dir, filename))
+            logging.info("Path \"{}\" is not a directory, \"{}\" not synched.".format(dir, filename))
             return
     
     # If both files do not exist, do nothing            
